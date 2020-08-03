@@ -18,7 +18,8 @@ namespace TDS.FileTransfer
                     using (var fileStream = new FileStream(uploadfile, FileMode.Open))
                     {
                         var nomeArquivo = Path.GetFileName(fileStream.Name);
-                        sftp.UploadFile(fileStream, remoteDirectory + "/" + nomeArquivo);
+                        var destino = $"{remoteDirectory}/{nomeArquivo}";
+                        sftp.UploadFile(fileStream, destino);
                     }
 
                     sftp.Disconnect();
