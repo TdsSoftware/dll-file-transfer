@@ -7,9 +7,9 @@ namespace TDS.FileTransfer
     public static class FileTransferService
     {
         [DllExport]
-        public static string UploadSFTP(string host, int port, string username, string password, string remoteDirectory, string uploadfile)
+        public static string UploadSFTP(string host, int port, string username, string password, string remoteFileLocation, string uploadfile)
         {
-            using (SftpClient sftp = new SftpClient(host, port, username, password))
+            using (var sftp = new SftpClient(host, port, username, password))
             {
                 try
                 {
@@ -17,9 +17,7 @@ namespace TDS.FileTransfer
 
                     using (var fileStream = new FileStream(uploadfile, FileMode.Open))
                     {
-                        var nomeArquivo = Path.GetFileName(fileStream.Name);
-                        var destino = $"{remoteDirectory}/{nomeArquivo}";
-                        sftp.UploadFile(fileStream, destino);
+                        sftp.UploadFile(fileStream, remoteFileLocation);
                     }
 
                     sftp.Disconnect();
